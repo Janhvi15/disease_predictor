@@ -1,0 +1,18 @@
+
+        {% extends "layouts/base.html" %}
+        {% block title %}Disease Prediction{% endblock %}
+        {% block content %}
+            <h1>Disease Prediction</h1>
+            <form method="post">
+                <label>Select Disease:</label>
+                <select name="disease">
+                    <option value="" disabled selected>Choose a disease</option>
+                    {% for d in diseases %}
+                        <option value="{{ d }}">{{ d }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Next</button>
+            </form>
+            <a href="{{ url_for('reviews') }}">View Reviews</a>
+        {% endblock %}
+        

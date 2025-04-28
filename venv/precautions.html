@@ -1,0 +1,20 @@
+
+        <div class="precautions">
+            <div>
+                <p><strong>Eat</strong></p>
+                <ul>
+                    {% for item in precautions.eat %}
+                        <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div>
+                <p><strong>Avoid</strong></p>
+                <ul>
+                    {% for item in precautions.avoid %}
+                        <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        

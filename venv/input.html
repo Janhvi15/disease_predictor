@@ -1,0 +1,16 @@
+
+        {% extends "layouts/base.html" %}
+        {% block title %}{{ disease }} Risk Assessment{% endblock %}
+        {% block content %}
+            <h1>{{ disease }} Risk Assessment</h1>
+            <form method="post" action="{{ url_for('predict') }}">
+                <input type="hidden" name="disease" value="{{ disease }}">
+                {% for feature in features %}
+                    <label>{{ feature.replace("_", " ").title() }}:</label>
+                    <input type="number" name="{{ feature }}" step="0.01" min="0" required>
+                {% endfor %}
+                <button type="submit">Predict</button>
+            </form>
+            <a href="{{ url_for('home') }}">Back to Home</a>
+        {% endblock %}
+        

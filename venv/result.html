@@ -1,0 +1,24 @@
+
+        {% extends "layouts/base.html" %}
+        {% block title %}{{ disease }} Prediction Result{% endblock %}
+        {% block content %}
+            <h1>{{ disease }} Prediction</h1>
+            <p><strong>Risk Probability:</strong> {{ "%.2f"|format(probability) }}%</p>
+            <p class="risk-level" style="background-color: {{ risk_color }}; color: white;">{{ risk_level }}</p>
+            <h2>Recommended Specialist</h2>
+            <p>{{ specialist }}: {{ name }} (Contact: {{ phone }})</p>
+            <h2>Recommended Tests</h2>
+            <ul>
+                {% if tests %}
+                    {% for test in tests %}
+                        <li>{{ test }}</li>
+                    {% endfor %}
+                {% else %}
+                    <li>No test required</li>
+                {% endif %}
+            </ul>
+            <h2>Precautions</h2>
+            {% include 'partials/precautions.html' %}
+            <a href="{{ url_for('home') }}">Back to Home</a>
+        {% endblock %}
+        

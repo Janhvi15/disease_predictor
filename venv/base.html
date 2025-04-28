@@ -1,0 +1,111 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>{% block title %}{% endblock %}</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                    padding: 20px;
+                    background-color: #e6f0fa;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    min-height: 100vh;
+                }
+                .container {
+                    max-width: 400px;
+                    width: 100%;
+                    padding: 20px;
+                    background-color: white;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                    text-align: center;
+                }
+                h1 {
+                    color: #000;
+                    margin-bottom: 20px;
+                    font-size: 24px;
+                }
+                h2 {
+                    color: #34495e;
+                    margin-top: 20px;
+                }
+                p {
+                    margin: 10px 0;
+                }
+                label {
+                    display: block;
+                    text-align: left;
+                    margin-bottom: 5px;
+                    font-weight: bold;
+                }
+                select, input[type="number"], textarea {
+                    width: 100%;
+                    padding: 10px;
+                    margin: 5px 0 15px 0;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                    font-size: 16px;
+                }
+                button {
+                    background-color: #007bff;
+                    color: white;
+                    padding: 10px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    width: 100%;
+                    font-size: 16px;
+                }
+                button:hover {
+                    background-color: #0056b3;
+                }
+                .success {
+                    color: #27ae60;
+                    margin: 10px 0;
+                }
+                .error {
+                    color: #e74c3c;
+                    margin: 10px 0;
+                }
+                .risk-level {
+                    font-weight: bold;
+                    margin: 5px 0;
+                    padding: 5px;
+                    border-radius: 3px;
+                    display: inline-block;
+                }
+                ul {
+                    padding-left: 20px;
+                    text-align: left;
+                    list-style-type: none;
+                }
+                .precautions {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-top: 10px;
+                }
+                .precautions div {
+                    width: 48%;
+                    text-align: left;
+                }
+                a {
+                    color: #007bff;
+                    text-decoration: none;
+                    display: block;
+                    margin-top: 10px;
+                }
+                a:hover {
+                    text-decoration: underline;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                {% block content %}{% endblock %}
+            </div>
+        </body>
+        </html>
+        
