@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Open Sans', sans-serif;
+            color: #1f2937;
+            min-height: 100vh;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.7); /* Semi-transparent overlay for readability */
+            z-index: -1;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            background: rgba(239, 246, 255, 0.95); /* Slightly transparent soft blue */
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            animation: fadeInContainer 0.5s ease-out;
+        }
+        @keyframes fadeInContainer {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            text-align: center;
+            color: #1e40af;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+        .section-title {
+            color: #1e40af;
+            font-weight: 600;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title i {
+            margin-right: 10px;
+            color: #10b981;
+        }
+        .card {
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .prediction {
+            background: #ffffff;
+            border: 2px solid #3b82f6;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+            animation: slideInPrediction 0.8s ease-out;
+        }
+        @keyframes slideInPrediction {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .appointment {
+            background: #dcfce7;
+            border: 2px solid #10b981;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+        .reviews {
+            background: #fff1f2;
+            border: 2px solid #fb7185;
+            box-shadow: 0 0 15px rgba(251, 113, 133, 0.4);
+        }
+        .progress {
+            height: 25px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+        .progress-bar {
+            background: linear-gradient(to right, #3b82f6, #60a5fa);
+            font-weight: 600;
+        }
+        .appointment-header {
+            color: #1e40af;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .form-label {
+            font-weight: 600;
+            color: #1e40af;
+        }
+        .form-control {
+            border-radius: 6px;
+            padding: 10px;
+            border: 1px solid #9ca3af;
+            background: #ffffff;
+        }
+        .btn-primary {
+            background: linear-gradient(to right, #10b981, #34d399);
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            transition: background 0.3s, transform 0.2s;
+            width: 100%;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(to right, #059669, #22c55e);
+            transform: scale(1.05);
+        }
+        .btn-secondary {
+            background: #6b7280;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            width: 100%;
+        }
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+        .review-card {
+            background: #ffffff;
+            border: 1px solid #fb7185;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ disease or 'Prediction Result' }} Disease Prediction Result</h1>
+        
+        <!-- Prediction Section -->
+        <h2 class="section-title"><i class="fas fa-stethoscope"></i> Your Prediction</h2>
+        <div class="card prediction">
+            <div class="card-body">
+                <p><strong>Risk of {{ disease or 'Unknown' }} Disease:</strong> {{ "%.2f" | format(probability if probability is not none else 0) }}%</p>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: {{ (probability if probability is not none else 0) | int }}%;" 
+                         aria-valuenow="{{ (probability if probability is not none else 0) | int }}" aria-valuemin="0" aria-valuemax="100">
+                        {{ "%.2f" | format(probability if probability is not none else 0) }}%
+                    </div>
+                </div>
+                <p class="mt-3"><strong>Recommended Specialist:</strong> {{ specialist or 'N/A' }}</p>
+                <p><strong>Contact:</strong> {{ phone_number or 'N/A' }}</p>
+                <p><strong>Recommended Tests:</strong> {{ recommended_tests | join(", ") if recommended_tests else "N/A" }}</p>
+                <p><strong>Dietary Precautions:</strong></p>
+                <ul>
+                    <li><strong>Eat:</strong> {{ precautions_eat | join(", ") if precautions_eat else "N/A" }}</li>
+                    <li><strong>Avoid:</strong> {{ precautions_avoid | join(", ") if precautions_avoid else "N/A" }}</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Appointment Section -->
+        <h2 class="section-title"><i class="fas fa-calendar-check"></i> Schedule Your Care</h2>
+        <div class="card appointment">
+            <div class="card-body">
+                <p class="appointment-header">Let’s schedule your care with {{ doctor_name or 'a specialist' }}</p>
+                <form method="POST" action="/book_appointment">
+                    <input type="hidden" name="disease" value="{{ disease or '' }}">
+                    <input type="hidden" name="doctor_name" value="{{ doctor_name or '' }}">
+                    <div class="mb-3">
+                        <label for="patient_name" class="form-label">Your Name</label>
+                        <input type="text" class="form-control" id="patient_name" name="patient_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="appointment_date" class="form-label">Appointment Date</label>
+                        <input type="date" class="form-control" id="appointment_date" name="appointment_date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="appointment_time" class="form-label">Appointment Time</label>
+                        <input type="time" class="form-control" id="appointment_time" name="appointment_time" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Book Appointment</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Reviews Section -->
+        <h2 class="section-title"><i class="fas fa-star"></i> Patient Reviews</h2>
+        <div class="card reviews">
+            <div class="card-body">
+                {% if reviews %}
+                {% for review in reviews %}
+                <div class="review-card">
+                    <p><strong>{{ review.name }}</strong> (Rating: {{ review.rating }}/5)</p>
+                    <p>{{ review.comment }}</p>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p>No reviews available.</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <a href="/" class="btn btn-secondary">Back to Home</a>
+    </div>
+</body>
+</html>

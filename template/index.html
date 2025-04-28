@@ -1,1 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Disease Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+            font-family: 'Open Sans', sans-serif;
+            color: #1f2937;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
+        }
+        h1 {
+            text-align: center;
+            color: #1e40af;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+        .form-label {
+            font-weight: 600;
+            color: #1e40af;
+        }
+        .form-control {
+            border-radius: 6px;
+            padding: 10px;
+            border: 1px solid #9ca3af;
+        }
+        .btn-primary {
+            background: #10b981;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            transition: background 0.3s, transform 0.2s;
+            width: 100%;
+        }
+        .btn-primary:hover {
+            background: #059669;
+            transform: scale(1.05);
+        }
+        /* Animated Healthcare Background */
+        .healthcare-icon {
+            position: absolute;
+            opacity: 0.7;
+            animation: float 10s infinite;
+        }
+        .healthcare-icon.heart {
+            width: 50px;
+            height: 50px;
+            background: url('https://img.icons8.com/color/50/000000/heart.png') no-repeat center center;
+            background-size: contain;
+        }
+        .healthcare-icon.heartbeat {
+            width: 80px;
+            height: 40px;
+            background: url('https://img.icons8.com/color/80/000000/heartbeat.png') no-repeat center center;
+            background-size: contain;
+        }
+        .healthcare-icon.stethoscope {
+            width: 60px;
+            height: 60px;
+            background: url('https://img.icons8.com/color/60/000000/stethoscope.png') no-repeat center center;
+            background-size: contain;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); }
+            25% { transform: translateY(-20px) translateX(20px) rotate(10deg); }
+            50% { transform: translateY(0) translateX(0) rotate(0deg); }
+            75% { transform: translateY(20px) translateX(-20px) rotate(-10deg); }
+            100% { transform: translateY(0) translateX(0) rotate(0deg); }
+        }
+        /* Positioning Icons */
+        .icon-1 { top: 10%; left: 10%; animation-delay: 0s; }
+        .icon-2 { top: 20%; right: 10%; animation-delay: 2s; }
+        .icon-3 { bottom: 20%; left: 15%; animation-delay: 4s; }
+        .icon-4 { bottom: 10%; right: 20%; animation-delay: 6s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Smart Disease Prediction</h1>
 
+        <!-- Disease Selection Form -->
+        <h3 class="form-label">Select Disease</h3>
+        <form method="POST" action="/">
+            <div class="mb-3">
+                <select class="form-control" name="disease" required>
+                    <option value="" disabled selected>Select Disease</option>
+                    {% for disease in diseases %}
+                    <option value="{{ disease }}">{{ disease }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Next</button>
+        </form>
+
+        <!-- Review Submission Form -->
+        <h3 class="form-label mt-4">Submit a Review</h3>
+        <form method="POST" action="/submit_review">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name (Optional)</label>
+                <input type="text" class="form-control" id="name" name="name" value="Anonymous">
+            </div>
+            <div class="mb-3">
+                <label for="rating" class="form-label">Rating (1-5)</label>
+                <input type="number" class="form-control" id="rating" name="rating" min="1" max="5" required>
+            </div>
+            <div class="mb-3">
+                <label for="comment" class="form-label">Comment</label>
+                <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Review</button>
+        </form>
+
+        <!-- Success/Error Messages -->
+        {% if success %}
+        <div class="alert alert-success mt-3">{{ success }}</div>
+        {% endif %}
+        {% if error %}
+        <div class="alert alert-danger mt-3">{{ error }}</div>
+        {% endif %}
+
+        <!-- Reviews Section -->
+        {% if reviews %}
+        <h3 class="form-label mt-4">Patient Reviews</h3>
+        {% for review in reviews %}
+        <div class="alert alert-light mt-2" role="alert">
+            <strong>{{ review.name }}</strong> (Rating: {{ review.rating }}/5) - {{ review.comment }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        
+
+    <!-- Animated Healthcare Icons -->
+    <div class="healthcare-icon heart icon-1"></div>
+    <div class="healthcare-icon heartbeat icon-2"></div>
+    <div class="healthcare-icon stethoscope icon-3"></div>
+    <div class="healthcare-icon heart icon-4"></div>
+</body>
+</html>

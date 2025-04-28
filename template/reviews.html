@@ -1,0 +1,21 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head><title>Reviews</title></head>
+        <body>
+            <h1>Reviews</h1>
+            {% if message %}<p style="color:green">{{ message }}</p>{% endif %}
+            {% if error %}<p style="color:red">{{ error }}</p>{% endif %}
+            <form method="post">
+                <p>Name: <input type="text" name="name" required></p>
+                <p>Review: <textarea name="review" required></textarea></p>
+                <input type="submit" value="Submit Review">
+            </form>
+            <h2>Existing Reviews</h2>
+            {% for review in reviews %}
+                <p><strong>{{ review.name }}</strong> ({{ review.date }}): {{ review.review }}</p>
+            {% endfor %}
+            <a href="/">Back to Home</a>
+        </body>
+        </html>
+        
